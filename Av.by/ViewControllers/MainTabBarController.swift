@@ -11,8 +11,27 @@ final class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //tabBar.backgroundColor =
+        tabBar.backgroundColor = .tabBar
         generateTabBar()
+        setupViews()
+    }
+    
+    private func setupViews() {
+        createCustomNavigationBar()
+        
+        let rightButton = createCustomButton(
+            imageName: "arrow.up.arrow.down",
+            selector: #selector(rightButtonTapped)
+        )
+        
+        let customTitleLabel = createCustomTitleView(titleText: "объявления")
+        
+        navigationItem.rightBarButtonItem = rightButton
+        navigationItem.titleView = customTitleLabel
+    }
+    
+    @objc private func rightButtonTapped() {
+        print("Button tapped")
     }
 
     private func generateTabBar() {
