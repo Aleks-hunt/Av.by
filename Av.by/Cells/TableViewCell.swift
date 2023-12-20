@@ -27,9 +27,9 @@ class TableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(view)
-//        setupCollectionView()
-//        configureConstraint()
-//        configureUI()
+        setupCollectionView()
+        configureConstraint()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -129,7 +129,7 @@ class TableViewCell: UITableViewCell {
     func setupModel(car: Parameters) {
         nameLabel.text = car.name
         priceLabel.text = car.price
-        photos.append(contentsOf: car.imageCar)
+        photos = car.imageCar
         infoLabel.text = car.info
         topImage.image = car.top
         vinImage.image = car.vin
