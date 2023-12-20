@@ -9,8 +9,10 @@ import UIKit
 
 final class SearchViewController: UIViewController {
     
-    let tableView: UITableView = .init()
+    //MARK: - Private properties
+    private let tableView: UITableView = .init()
     
+    //MARK: - Cars for cell
     private let cars: [Parameters] = [
         Parameters(
             name: "Audi Q5",
@@ -114,6 +116,7 @@ final class SearchViewController: UIViewController {
         )
     ]
 
+    //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -125,11 +128,13 @@ final class SearchViewController: UIViewController {
     }
 }
 
+//MARK: - Extension SearchViewController: UITableViewDelegate/UITableViewDataSource
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? TableViewCell {
             let detail = cars[indexPath.row]
             cell.setupModel(car: detail)
+            cell.delegate = self
             return cell
         }
         return UITableViewCell()
@@ -144,6 +149,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         475
     }
 }
+
+//MARK: - Extension SearchViewController setup TableView
 extension SearchViewController {
     func setupTableView() {
         view.addSubview(tableView)
@@ -154,5 +161,20 @@ extension SearchViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+}
+
+//MARK: - Extension SearchViewController: TableViewCellDelegate
+extension SearchViewController: TableViewCellDelegate {
+    func leasingButtonTapped() {
+        print("Leasing button tapped")
+    }
+    
+    func toFavoritesButtonTapped() {
+        print("toFavorites button tapped")
+    }
+    
+    func notShowButtonTapped() {
+        print("notShow button tapped")
     }
 }

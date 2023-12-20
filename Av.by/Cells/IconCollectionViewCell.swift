@@ -7,14 +7,16 @@
 
 import UIKit
 
-class IconCollectionViewCell: UICollectionViewCell {
+final class IconCollectionViewCell: UICollectionViewCell {
     
-    var imageView = UIImageView()
+    //MARK: - Private property
+    private let imageView = UIImageView()
 
     func setImage(_ image: UIImage) {
         imageView.image = image
     }
 
+    //MARK: - Life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
@@ -24,6 +26,7 @@ class IconCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    //MARK: - Setup cell
     private func setupCell() {
         self.contentView.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false

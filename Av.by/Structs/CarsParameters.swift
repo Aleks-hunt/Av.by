@@ -21,6 +21,6 @@ struct Parameters {
     let city: String
     var date: String
     var leasingPrice: Int {
-        return Int(Double(price / 5) * 1.3)
+        return Int(Double(price / 60) * 1.3)
     }
 }

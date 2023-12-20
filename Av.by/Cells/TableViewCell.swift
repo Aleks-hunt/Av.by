@@ -7,26 +7,51 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
-    
-    private var photos = [UIImage]()
-    private var view = UIView()
-    private var nameLabel = UILabel()
-    private var toFavoritesButton = UIButton()
-    private var notShowButton = UIButton()
-    private var priceLabel = UILabel()
-    private var dollarPriceLabel = UILabel()
-    private var collectionView: UICollectionView!
-    private var infoLabel = UILabel()
-    private var topImage = UIImageView()
-    private var vinImage = UIImageView()
-    private var cityLabel = UILabel()
-    private var dateLabel = UILabel()
-    private var lineView = UIView()
-    private var leasingNameLabel = UILabel()
-    private var leasingPriceLabel = UILabel()
-    private var leasingButton = UIButton()
+//MARK: - Proticol
+protocol TableViewCellDelegate: AnyObject {
+    func leasingButtonTapped()
+    func toFavoritesButtonTapped()
+    func notShowButtonTapped()
+}
 
+final class TableViewCell: UITableViewCell {
+    
+    //MARK: - Delegate property
+    weak var delegate: TableViewCellDelegate?
+    
+    //MARK: - Private properties
+    private var photos = [UIImage]()
+    private let view = UIView()
+    private let nameLabel = UILabel()
+    private let toFavoritesButton = UIButton()
+    private let notShowButton = UIButton()
+    private let priceLabel = UILabel()
+    private let dollarPriceLabel = UILabel()
+    private var collectionView: UICollectionView!
+    private let infoLabel = UILabel()
+    private let topImage = UIImageView()
+    private let vinImage = UIImageView()
+    private let cityLabel = UILabel()
+    private let dateLabel = UILabel()
+    private let lineView = UIView()
+    private let leasingNameLabel = UILabel()
+    private let leasingPriceLabel = UILabel()
+    private let leasingButton = UIButton()
+    
+    //MARK: - Buttons for protocol
+    @objc private func leasingButtonTapped() {
+        delegate?.leasingButtonTapped()
+    }
+    
+    @objc private func toFavoritesButtonTapped() {
+        delegate?.toFavoritesButtonTapped()
+    }
+
+    @objc private func notShowButtonTapped() {
+        delegate?.notShowButtonTapped()
+    }
+
+    //MARK: - Life cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(view)
@@ -43,6 +68,7 @@ class TableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    //MARK: - Configure constraints
     private func configureConstraint() {
         [collectionView, nameLabel, dollarPriceLabel, toFavoritesButton, notShowButton, priceLabel, infoLabel, topImage, vinImage, cityLabel, dateLabel, lineView, leasingNameLabel, leasingPriceLabel, leasingButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -127,6 +153,7 @@ class TableViewCell: UITableViewCell {
         ])
     }
 
+    //MARK: - Configure UI
     private func configureUI() {
         view.backgroundColor = .cellBackground
         view.layer.cornerRadius = 10
@@ -175,6 +202,7 @@ class TableViewCell: UITableViewCell {
         leasingButton.addTarget(self, action: #selector(leasingButtonTapped), for: .touchUpInside)
     }
 
+    //MARK: - Setup model for cell
     func setupModel(car: Parameters) {
         nameLabel.text = car.name
         priceLabel.text = "\(car.price) p."
@@ -188,20 +216,9 @@ class TableViewCell: UITableViewCell {
         leasingPriceLabel.text = "от \(car.leasingPrice) РУБ/месяц"
         collectionView.reloadData()
     }
-    
-    @objc private func leasingButtonTapped() {
-        print("Leasing button tapped")
-    }
-    
-    @objc private func toFavoritesButtonTapped() {
-        print("Favorites button tapped")
-    }
-
-    @objc private func notShowButtonTapped() {
-        print("NotShow button tapped")
-    }
 }
 
+//MARK: - Extension TableViewCell: UICollectionViewDelegate/UICollectionViewDataSource
 extension TableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let iconCell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconCollectionViewCell", for: indexPath) as? IconCollectionViewCell {
@@ -216,6 +233,7 @@ extension TableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
+//MARK: - Extension TableViewCell - CollectionView
 extension TableViewCell {
     func setupCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: setupFlowLayout())

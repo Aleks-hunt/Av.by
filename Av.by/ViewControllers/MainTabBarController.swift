@@ -9,6 +9,7 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
 
+    //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.backgroundColor = .tabBar
@@ -16,6 +17,7 @@ final class MainTabBarController: UITabBarController {
         setupViews()
     }
     
+    //MARK: - Setup views
     private func setupViews() {
         createCustomNavigationBar()
         
@@ -30,10 +32,12 @@ final class MainTabBarController: UITabBarController {
         navigationItem.titleView = customTitleLabel
     }
     
+    //MARK: - Action button in NavigationBar
     @objc private func rightButtonTapped() {
         print("Button tapped")
     }
 
+    //MARK: - Generate TabBar
     private func generateTabBar() {
         viewControllers = [
             generateVC(
@@ -59,6 +63,7 @@ final class MainTabBarController: UITabBarController {
         ]
     }
     
+    //MARK: - Generate VC
     private func generateVC(viewController: UIViewController, title: String, image: UIImage?) -> UIViewController {
         viewController.tabBarItem.title = title
         viewController.tabBarItem.image = image
