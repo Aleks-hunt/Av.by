@@ -38,7 +38,7 @@ class IconCollectionViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 
             imageView.heightAnchor.constraint(equalToConstant: 235),
-            imageView.widthAnchor.constraint(equalToConstant: 235)
+            imageView.widthAnchor.constraint(equalToConstant: 350)
         ])
     }
 }

@@ -13,7 +13,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
+        
         addSubviews()
         setConstraints()
         configureUI()
@@ -35,7 +36,6 @@ class ViewController: UIViewController {
     }
     
     private func configureUI() {
-        title = "CustomNavBar"
         
         contactButton.setTitle("Start", for: .normal)
         contactButton.setTitleColor(.white, for: .normal)

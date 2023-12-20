@@ -10,15 +10,17 @@ import UIKit
 
 struct Parameters {
     let name: String
-    var price: String
-//    var dollars: Double {
-//        return Double(price / 90)
-//    }
+    var price: Int
+    var dollars: Int {
+        return Int(price / 90)
+    }
     var imageCar: [UIImage]
     var info: String
     var top: UIImage
     var vin: UIImage
     let city: String
     var date: String
-    var leasing: String?
+    var leasingPrice: Int {
+        return Int(Double(price / 5) * 1.3)
+    }
 }

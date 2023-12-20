@@ -13,6 +13,7 @@ class TableViewCell: UITableViewCell {
     private var view = UIView()
     private var nameLabel = UILabel()
     private var toFavoritesButton = UIButton()
+    private var notShowButton = UIButton()
     private var priceLabel = UILabel()
     private var dollarPriceLabel = UILabel()
     private var collectionView: UICollectionView!
@@ -22,6 +23,8 @@ class TableViewCell: UITableViewCell {
     private var cityLabel = UILabel()
     private var dateLabel = UILabel()
     private var lineView = UIView()
+    private var leasingNameLabel = UILabel()
+    private var leasingPriceLabel = UILabel()
     private var leasingButton = UIButton()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,7 +44,7 @@ class TableViewCell: UITableViewCell {
     }
     
     private func configureConstraint() {
-        [collectionView, nameLabel, toFavoritesButton, priceLabel, infoLabel, topImage, vinImage, cityLabel, dateLabel, lineView, leasingButton].forEach {
+        [collectionView, nameLabel, dollarPriceLabel, toFavoritesButton, notShowButton, priceLabel, infoLabel, topImage, vinImage, cityLabel, dateLabel, lineView, leasingNameLabel, leasingPriceLabel, leasingButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
@@ -58,10 +61,24 @@ class TableViewCell: UITableViewCell {
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             nameLabel.heightAnchor.constraint(equalToConstant: 20),
             nameLabel.widthAnchor.constraint(equalToConstant: 200),
+            
+            toFavoritesButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+            toFavoritesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            toFavoritesButton.heightAnchor.constraint(equalToConstant: 20),
+            toFavoritesButton.widthAnchor.constraint(equalToConstant: 20),
+            
+            notShowButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+            notShowButton.trailingAnchor.constraint(equalTo: toFavoritesButton.leadingAnchor, constant: -5),
+            notShowButton.heightAnchor.constraint(equalToConstant: 20),
+            notShowButton.widthAnchor.constraint(equalToConstant: 30),
 
             priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             priceLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            dollarPriceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 17),
+            dollarPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor),
+            dollarPriceLabel.heightAnchor.constraint(equalToConstant: 15),
 
             collectionView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
@@ -92,11 +109,21 @@ class TableViewCell: UITableViewCell {
             lineView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             lineView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             lineView.heightAnchor.constraint(equalToConstant: 0.25),
+            
+            leasingNameLabel.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 10),
+            leasingNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            leasingNameLabel.heightAnchor.constraint(equalToConstant: 20),
+            leasingNameLabel.widthAnchor.constraint(equalToConstant: 150),
+            
+            leasingPriceLabel.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 10),
+            leasingPriceLabel.leadingAnchor.constraint(equalTo: leasingNameLabel.trailingAnchor),
+            leasingPriceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            leasingPriceLabel.heightAnchor.constraint(equalToConstant: 20),
 
-            leasingButton.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 15),
+            leasingButton.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 10),
             leasingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            leasingButton.heightAnchor.constraint(equalToConstant: 10),
-            leasingButton.widthAnchor.constraint(equalToConstant: 190)
+            leasingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            leasingButton.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 
@@ -106,8 +133,20 @@ class TableViewCell: UITableViewCell {
 
         nameLabel.textColor = .nameCar
         nameLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        toFavoritesButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        toFavoritesButton.tintColor = .favoritesButton
+        toFavoritesButton.addTarget(self, action: #selector(toFavoritesButtonTapped), for: .touchUpInside)
+        
+        notShowButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+        notShowButton.tintColor = .favoritesButton
+        notShowButton.addTarget(self, action: #selector(notShowButtonTapped), for: .touchUpInside)
 
         priceLabel.font = UIFont.boldSystemFont(ofSize: 23)
+        
+        dollarPriceLabel.textAlignment = .left
+        dollarPriceLabel.font = UIFont.systemFont(ofSize: 13)
+        dollarPriceLabel.textColor = .dollarPrice
 
         infoLabel.textColor = .infoText
         infoLabel.font = UIFont.systemFont(ofSize: 15)
@@ -120,24 +159,47 @@ class TableViewCell: UITableViewCell {
         dateLabel.font = UIFont.systemFont(ofSize: 13)
 
         lineView.backgroundColor = .darkGray
+        
+        leasingNameLabel.backgroundColor = .clear
+        leasingNameLabel.textAlignment = .left
+        leasingNameLabel.font = UIFont.systemFont(ofSize: 13)
+        leasingNameLabel.text = "Лизинг"
+        leasingNameLabel.textColor = .leasingText
+        
+        leasingPriceLabel.backgroundColor = .clear
+        leasingPriceLabel.textAlignment = .right
+        leasingPriceLabel.font = UIFont.systemFont(ofSize: 13)
+        leasingPriceLabel.textColor = .leasingText
 
-        leasingButton.setTitleColor(.leasingText, for: .normal)
-        leasingButton.setTitle("Лизинг", for: .normal)
-        leasingButton.titleLabel?.textAlignment = .left
+        leasingButton.backgroundColor = .clear
+        leasingButton.addTarget(self, action: #selector(leasingButtonTapped), for: .touchUpInside)
     }
 
     func setupModel(car: Parameters) {
         nameLabel.text = car.name
-        priceLabel.text = car.price
+        priceLabel.text = "\(car.price) p."
+        dollarPriceLabel.text = " ~ \(car.dollars) $"
         photos = car.imageCar
         infoLabel.text = car.info
         topImage.image = car.top
         vinImage.image = car.vin
         cityLabel.text = car.city
         dateLabel.text = car.date
+        leasingPriceLabel.text = "от \(car.leasingPrice) РУБ/месяц"
         collectionView.reloadData()
     }
+    
+    @objc private func leasingButtonTapped() {
+        print("Leasing button tapped")
+    }
+    
+    @objc private func toFavoritesButtonTapped() {
+        print("Favorites button tapped")
+    }
 
+    @objc private func notShowButtonTapped() {
+        print("NotShow button tapped")
+    }
 }
 
 extension TableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
