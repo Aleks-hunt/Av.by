@@ -9,8 +9,10 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    //MARK: - Private properties
     private var contactButton = UIButton()
 
+    //MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -20,10 +22,12 @@ final class ViewController: UIViewController {
         configureUI()
     }
     
+    //MARK: - Add subview
     private func addSubviews() {
         view.addSubview(contactButton)
     }
     
+    //MARK: - Constraints
     private func setConstraints() {
         contactButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -35,6 +39,7 @@ final class ViewController: UIViewController {
         ])
     }
     
+    //MARK: - Configure UI
     private func configureUI() {
         
         contactButton.setTitle("Start", for: .normal)
@@ -48,6 +53,7 @@ final class ViewController: UIViewController {
         )
     }
     
+    //MARK: - Action button
     @objc private func contactButtonTapped() {
         let mainTabBarController = MainTabBarController()
         navigationController?.pushViewController(mainTabBarController, animated: true)
@@ -55,6 +61,7 @@ final class ViewController: UIViewController {
 
 }
 
+//MARK: - Extension UIViewController: NavigationBar
 extension UIViewController {
     func createCustomNavigationBar() {
         navigationController?.navigationBar.barTintColor = .systemBackground
