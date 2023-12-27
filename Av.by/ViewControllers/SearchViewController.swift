@@ -139,14 +139,24 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return UITableViewCell()
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cars.count
     }
+    
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         false
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         475
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let extendedDescriptionViewController = ExtendedDescriptionViewController()
+        let car = cars[indexPath.row]
+        
+        self.navigationController?.pushViewController(extendedDescriptionViewController, animated: true)
     }
 }
 
